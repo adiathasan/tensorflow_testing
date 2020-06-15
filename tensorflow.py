@@ -1,11 +1,13 @@
 import pandas as pd
 import numpy as np
 import sklearn
+from pandas.plotting import scatter_matrix
 from sklearn import linear_model
 from sklearn.utils import shuffle
 import matplotlib.pyplot as pp
 import pickle
 from matplotlib import style
+
 
 data = pd.read_csv('student-mat.csv', sep=';')
 
@@ -19,18 +21,18 @@ y = np.array(data[to_predict])
 
 x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y, test_size=.1)
 best = 0
-for _ in range(10000):
-    x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y, test_size=.1)
-    liner = linear_model.LinearRegression()
-
-    liner.fit(x_train, y_train)
-
-    accuracy = liner.score(x_test, y_test)
-
-    if accuracy > best:
-        best = accuracy
-        with open('student-fin-grd.pickle', 'wb') as f:
-            pickle.dump(liner, f)
+# for _ in range(10000):
+#     x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y, test_size=.1)
+#     liner = linear_model.LinearRegression()
+#
+#     liner.fit(x_train, y_train)
+#
+#     accuracy = liner.score(x_test, y_test)
+#
+#     if accuracy > best:
+#         best = accuracy
+#         with open('student-fin-grd.pickle', 'wb') as f:
+#             pickle.dump(liner, f)
 
 open_pickle = open('student-fin-grd.pickle', 'rb')
 
@@ -46,4 +48,6 @@ x_axis = 'age'
 pp.scatter(data[x_axis], data[to_predict])
 pp.xlabel(x_axis)
 pp.ylabel('Final Grade')
+pp.show()
+scatter_matrix(data)
 pp.show()
